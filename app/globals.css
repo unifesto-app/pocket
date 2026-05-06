@@ -1,26 +1,319 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Tailwind base, components, and utilities layers */
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  html,
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-agrandir);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ========================================
+   CUSTOM FONTS
+   ======================================== */
+@font-face {
+  font-family: "Agrandir";
+  src: url("./assets/fonts/Agrandir/Agrandir-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sweet Apricot";
+  src: url("./assets/fonts/SweetApricot/SweetApricot.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========================================
+   CSS VARIABLES
+   ======================================== */
+:root {
+  /* Brand colors */
+  --brand-primary: #fff462;
+  --brand-bright: #ffb700;
+  
+  /* Background */
+  --background: #000000;
+  --foreground: #ffffff;
+  
+  /* Borders & overlays */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --overlay-subtle: rgba(255, 255, 255, 0.02);
+  --overlay-medium: rgba(255, 255, 255, 0.05);
+  
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --text-subtle: #475569;
+  
+  /* Font families */
+  --font-agrandir: "Agrandir", system-ui, -apple-system, sans-serif;
+  --font-sweet-apricot: "Sweet Apricot", cursive;
+}
+
+
+
+/* ========================================
+   CUSTOM ANIMATIONS
+   ======================================== */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    filter: blur(40px);
+  }
+  50% {
+    opacity: 0.7;
+    filter: blur(60px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes face-scan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes scan-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(189,173,255,0.4), 0 0 40px rgba(189,173,255,0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(189,173,255,0.8), 0 0 60px rgba(189,173,255,0.4);
+  }
+}
+
+@keyframes bracket-pulse {
+  0%, 100% {
+    border-color: #fff462;
+    opacity: 1;
+  }
+  50% {
+    border-color: #ffb700;
+    opacity: 0.6;
+  }
+}
+
+@keyframes processing-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scan-complete {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes check-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes success-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34,197,94,0.4), 0 0 40px rgba(34,197,94,0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(34,197,94,0.6), 0 0 60px rgba(34,197,94,0.3);
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.font-agrandir {
+  font-family: var(--font-agrandir);
+}
+
+.font-sweet-apricot {
+  font-family: var(--font-sweet-apricot);
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-face-scan {
+  animation: face-scan 2.5s ease-in-out;
+}
+
+.animate-scan-glow {
+  animation: scan-glow 2.5s ease-in-out;
+}
+
+.animate-bracket-pulse {
+  animation: bracket-pulse 2.5s ease-in-out;
+}
+
+.animate-processing-spin {
+  animation: processing-spin 1s linear infinite;
+}
+
+.animate-scan-complete {
+  animation: scan-complete 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-check-draw {
+  animation: check-draw 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.animate-success-glow {
+  animation: success-glow 2s ease-in-out infinite;
+}
+
+.animate-fade-out {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animate-delay-400 {
+  animation-delay: 0.4s;
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* ========================================
+   SELECTION STYLING
+   ======================================== */
+::selection {
+  background-color: rgba(189, 173, 255, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: rgba(189, 173, 255, 0.3);
+  color: #ffffff;
 }
